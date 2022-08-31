@@ -6,15 +6,18 @@ namespace RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveSer
 public class PageMessage
 {
     public IUserMessage Message => _message;
+
+    private readonly IUserMessage _message;
+
+    private readonly string[] _pages;
+
+    private int _currentPage = 0;
+
     public PageMessage(IUserMessage message,string[] pages)
     {
         _pages = pages;
         _message = message;
     }
-
-    private readonly IUserMessage _message;
-    private readonly string[] _pages;
-    private int _currentPage = 0;
 
     public string ChangePage(SocketReaction reaction)
     {
