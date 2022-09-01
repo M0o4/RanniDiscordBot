@@ -17,11 +17,11 @@ public class Ranni
 
     public Ranni()
     {
-        IServiceProvider service = new Provider().ConfigureServices();
+        IServiceProvider services = new Provider().ConfigureServices();
         
-        _client = service.GetRequiredService<DiscordSocketClient>();
-        _logger = service.GetRequiredService<ILogger>();
-        _commandHandler = service.GetRequiredService<ICommandHandler>();
+        _client = services.GetRequiredService<DiscordSocketClient>();
+        _logger = services.GetRequiredService<ILogger>();
+        _commandHandler = services.GetRequiredService<ICommandHandler>();
     }
 
     public async Task StartBotAsync()

@@ -1,13 +1,17 @@
 ﻿using Discord.Commands;
+using Microsoft.Extensions.DependencyInjection;
+using RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.LoggerService;
 
 namespace RanniDiscordBot.RanniDiscordBot.Infrastructure.Modules;
 
 public class InfoModule : ModuleBase<SocketCommandContext>
 {
     private readonly CommandService _commands;
+    private readonly ILogger _logger;
 
-    public InfoModule(CommandService commands)
+    public InfoModule(CommandService commands, ILogger logger)
     {
+        _logger = logger;
         _commands = commands;
     }
         
@@ -15,6 +19,8 @@ public class InfoModule : ModuleBase<SocketCommandContext>
     [Summary("Command list")]
     public Task PrintCommandAsync()
     {
+         _logger.LogDebug(nameof(InfoModule), "Test debug");
+        
         var commands = string.Empty;
         if(string.IsNullOrEmpty(commands))
         {
