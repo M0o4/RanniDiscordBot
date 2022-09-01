@@ -1,39 +1,38 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
+using RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService;
 using RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService.InteractiveMessage.RoleMessageService;
 
 namespace RanniDiscordBot.RanniDiscordBot.Infrastructure.Modules.RoleModules;
 
 public class RoleModule : ModuleBase<SocketCommandContext>
 {
+    private readonly IInteractiveService _interactiveMessage;
+
+    public RoleModule(IInteractiveService interactiveMessage)
+    {
+        _interactiveMessage = interactiveMessage;
+    }
+
     [Command("role")]
-    [Summary("set role.")]
-    public async Task PrintBlackListAsync()
+    [Summary("set role message.")]
+    public Task SetRoleMessageAsync()
     {
         var message = Context.Message.ReferencedMessage;
 
-        await AddReactions(message);
+        _ = Task.Run(async () =>
+        {
+            Roles.ServerRoles = Context.Guild.Roles.ToList();
 
-        // _ = Task.Run(async () =>
-        // {
-        //     var list = BlackList.GetList(5);
-        //     if (list.Count == 1)
-        //     {
-        //         await ReplyAsync(list[0]);
-        //         return;
-        //     }
-        //     
-        //     string page = $"{PageMessageEmote.PageEmoji}: {1}/{list.Count}";
-        //     var message = await Context.Channel.SendMessageAsync($"```{list[0]}```{page}");
-        //         
-        //     Shinobu.InteractiveService.AddPageMessage(message.Id, new PageMessage(message, list.ToArray()));
-        //     await message.AddReactionAsync(PageMessageEmote.Back);
-        //     await message.AddReactionAsync(PageMessageEmote.Next);
-        // });
+            await AddReactions(message);
+            
+            _interactiveMessage.AddInteractMessage(Context.Message.Id, new RoleMessage());
+        });
+        
+        return Task.CompletedTask;
     }
 
-    private async Task AddReactions(IUserMessage message)
+    private async Task AddReactions(IMessage message)
     {
         await message.AddReactionAsync(RoleMessageEmote.One);
         await message.AddReactionAsync(RoleMessageEmote.Two);
