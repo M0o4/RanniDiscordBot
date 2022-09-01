@@ -1,6 +1,7 @@
 ﻿using Discord;
 
-namespace RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService.InteractiveMessageService;
+namespace RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService.InteractiveMessage.
+    RoleMessageService;
 
 public static class RoleMessageEmote
 {
