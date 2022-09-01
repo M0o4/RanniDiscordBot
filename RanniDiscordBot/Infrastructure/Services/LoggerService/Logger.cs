@@ -5,21 +5,22 @@ namespace RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.LoggerService;
 
 public class Logger : ILogger
 {
-    public async void LogCritical(string source, string message) => 
+    public async void LogCritical(string message) =>
         await Log(new LogMessage(LogSeverity.Critical, NameOfCallingClass(), message));
-    public async void LogError(string source, string message) => 
+
+    public async void LogError(string message) =>
         await Log(new LogMessage(LogSeverity.Error, NameOfCallingClass(), message));
-    
-    public async void LogWarning(string source, string message) => 
+
+    public async void LogWarning(string message) =>
         await Log(new LogMessage(LogSeverity.Warning, NameOfCallingClass(), message));
-    
-    public async void LogInfo(string source, string message) => 
+
+    public async void LogInfo(string message) =>
         await Log(new LogMessage(LogSeverity.Info, NameOfCallingClass(), message));
-    
-    public async void LogVerbose(string source, string message) => 
+
+    public async void LogVerbose(string message) =>
         await Log(new LogMessage(LogSeverity.Verbose, NameOfCallingClass(), message));
-    
-    public async void LogDebug(string source, string message) => 
+
+    public async void LogDebug(string message) =>
         await Log(new LogMessage(LogSeverity.Debug, NameOfCallingClass(), message));
 
     public Task Log(LogMessage message)
@@ -64,7 +65,7 @@ public class Logger : ILogger
     {
         var methodInfo = new StackTrace().GetFrame(5)?.GetMethod();
         var className = methodInfo?.ReflectedType?.Name;
-        
+
         return className;
     }
 }

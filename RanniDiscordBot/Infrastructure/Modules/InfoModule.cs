@@ -19,8 +19,6 @@ public class InfoModule : ModuleBase<SocketCommandContext>
     [Summary("Command list")]
     public Task PrintCommandAsync()
     {
-         _logger.LogDebug(nameof(InfoModule), "Test debug");
-        
         var commands = string.Empty;
         if(string.IsNullOrEmpty(commands))
         {
