@@ -1,6 +1,6 @@
 ﻿using Discord;
 
-namespace RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService.PageMessageService;
+namespace RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService.InteractiveMessage.PageMessageService;
 
 public static class PageMessageEmote
 {

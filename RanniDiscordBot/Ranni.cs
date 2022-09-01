@@ -33,7 +33,7 @@ public class Ranni
 
         await Task.Delay(-1);
     }
-
+    
     private Task Log(LogMessage msg)
     {
         Console.WriteLine(msg.ToString());

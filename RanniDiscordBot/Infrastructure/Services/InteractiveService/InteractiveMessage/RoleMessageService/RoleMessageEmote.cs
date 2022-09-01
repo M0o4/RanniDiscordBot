@@ -1,8 +1,8 @@
 ﻿using Discord;
 
-namespace RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService.InteractiveMessageService;
+namespace RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService.InteractiveMessage.RoleMessageService;
 
-public static class InteractiveMessageEmote
+public static class RoleMessageEmote
 {
     public static IEmote One = new Emoji(":one:");
     public static IEmote Two = new Emoji(":two:");

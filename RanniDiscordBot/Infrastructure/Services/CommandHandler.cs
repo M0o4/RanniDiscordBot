@@ -19,7 +19,6 @@ public class CommandHandler : ICommandHandler
 
     public async Task InstallCommandsAsync()
     {
-        Console.WriteLine("InstallCommandsAsync");
         _client.MessageReceived += HandleCommandAsync;
         
         await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), 

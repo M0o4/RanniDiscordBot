@@ -1,45 +1,44 @@
 ﻿using Discord;
 using Discord.Commands;
-using RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService.InteractiveMessageService;
-using RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService.PageMessageService;
+using RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService;
+using RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService.InteractiveMessage.RoleMessageService;
 
 namespace RanniDiscordBot.RanniDiscordBot.Infrastructure.Modules;
 
 public class RoleModule : ModuleBase<SocketCommandContext>
 {
+    private readonly IInteractiveService _interactiveMessage;
+
+    public RoleModule(IInteractiveService interactiveMessage)
+    {
+        _interactiveMessage = interactiveMessage;
+    }
+
     [Command("role")]
-    [Summary("set role.")]
-    public async Task PrintBlackListAsync()
+    [Summary("set role message.")]
+    public Task SetRoleMessageAsync()
     {
         var message = Context.Message.ReferencedMessage;
 
-        await AddReactions(message);
+        _ = Task.Run(async () =>
+        {
+            Roles.ServerRoles = Context.Guild.Roles.ToList();
+
+            await AddReactions(message);
+            
+            _interactiveMessage.AddInteractMessage(Context.Message.Id, new RoleMessage());
+        });
         
-        // _ = Task.Run(async () =>
-        // {
-        //     var list = BlackList.GetList(5);
-        //     if (list.Count == 1)
-        //     {
-        //         await ReplyAsync(list[0]);
-        //         return;
-        //     }
-        //     
-        //     string page = $"{PageMessageEmote.PageEmoji}: {1}/{list.Count}";
-        //     var message = await Context.Channel.SendMessageAsync($"```{list[0]}```{page}");
-        //         
-        //     Shinobu.InteractiveService.AddPageMessage(message.Id, new PageMessage(message, list.ToArray()));
-        //     await message.AddReactionAsync(PageMessageEmote.Back);
-        //     await message.AddReactionAsync(PageMessageEmote.Next);
-        // });
+        return Task.CompletedTask;
     }
 
-    private async Task AddReactions(IUserMessage message)
+    private async Task AddReactions(IMessage message)
     {
-        await message.AddReactionAsync(InteractiveMessageEmote.One);
-        await message.AddReactionAsync(InteractiveMessageEmote.Two);
-        await message.AddReactionAsync(InteractiveMessageEmote.Three);
-        await message.AddReactionAsync(InteractiveMessageEmote.Four);
-        await message.AddReactionAsync(InteractiveMessageEmote.Five);
+        await message.AddReactionAsync(RoleMessageEmote.One);
+        await message.AddReactionAsync(RoleMessageEmote.Two);
+        await message.AddReactionAsync(RoleMessageEmote.Three);
+        await message.AddReactionAsync(RoleMessageEmote.Four);
+        await message.AddReactionAsync(RoleMessageEmote.Five);
     }
 
     // await Context.Message.ReferencedMessage.ReplyAsync(Switcher.Switch(Context.Message.ReferencedMessage.Content.ToLower()));

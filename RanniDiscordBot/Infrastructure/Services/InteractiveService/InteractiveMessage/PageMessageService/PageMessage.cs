@@ -1,9 +1,9 @@
 ﻿using Discord;
 using Discord.WebSocket;
 
-namespace RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService.PageMessageService;
+namespace RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService.InteractiveMessage.PageMessageService;
 
-public class PageMessage
+public class PageMessage : IInteractiveMessage
 {
     public IUserMessage Message => _message;
 
@@ -18,6 +18,9 @@ public class PageMessage
         _pages = pages;
         _message = message;
     }
+
+    public Task Interact(SocketReaction reaction) => 
+        _message.ModifyAsync(msg => msg.Content = ChangePage(reaction));
 
     public string ChangePage(SocketReaction reaction)
     {

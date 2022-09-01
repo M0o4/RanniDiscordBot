@@ -1,8 +1,8 @@
-﻿using RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService.PageMessageService;
+﻿using RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService.InteractiveMessage;
 
 namespace RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService;
 
 public interface IInteractiveService
 {
-    void AddPageMessage(ulong messageId, PageMessage pageMessage);
+    void AddInteractMessage(ulong messageId, IInteractiveMessage pageMessage);
 }

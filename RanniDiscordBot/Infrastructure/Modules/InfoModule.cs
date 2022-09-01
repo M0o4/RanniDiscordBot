@@ -1,5 +1,6 @@
 ﻿using Discord.Commands;
-using RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService.InteractiveMessageService;
+using Discord.WebSocket;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace RanniDiscordBot.RanniDiscordBot.Infrastructure.Modules;
 
@@ -29,6 +30,19 @@ public class InfoModule : ModuleBase<SocketCommandContext>
         }
         return ReplyAsync(commands);
     }
+    
+    // [Command("test")]
+    // [Summary("Command")]
+    // public Task PrintTestAsync()
+    // {
+    //     string guilds = string.Empty;
+    //
+    //     foreach (var guild in _client.Guilds)
+    //     {
+    //         guilds += $"{guild.Name},";
+    //     }
+    //     return ReplyAsync(guilds);
+    // }
     
     [Command("say")]
     [Summary("Echo a message")]
