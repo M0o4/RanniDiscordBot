@@ -6,5 +6,11 @@ namespace RanniDiscordBot.RanniDiscordBot.Configuration;
 public class RoleMessageData
 {
     public RoleMessage RoleMessage { get; set; }
-    public ulong RoleMessageID { get; set; }
+    public ulong RoleMessageId { get; set; }
+
+    public RoleMessageData()
+    {
+        RoleMessage = new RoleMessage();
+        RoleMessageId = 0;
+    }
 }
