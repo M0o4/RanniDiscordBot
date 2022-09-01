@@ -4,10 +4,27 @@ namespace RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.LoggerService;
 
 public class Logger : ILogger
 {
+    public async void LogCritical(string source, string message) => 
+        await Log(new LogMessage(LogSeverity.Critical, source, message));
+    public async void LogError(string source, string message) => 
+        await Log(new LogMessage(LogSeverity.Error, source, message));
+    
+    public async void LogWarning(string source, string message) => 
+        await Log(new LogMessage(LogSeverity.Warning, source, message));
+    
+    public async void LogInfo(string source, string message) => 
+        await Log(new LogMessage(LogSeverity.Info, source, message));
+    
+    public async void LogVerbose(string source, string message) => 
+        await Log(new LogMessage(LogSeverity.Verbose, source, message));
+    
+    public async void LogDebug(string source, string message) => 
+        await Log(new LogMessage(LogSeverity.Debug, source, message));
+
     public Task Log(LogMessage message)
     {
         SetConsoleColor(message.Severity);
-        Console.WriteLine(message.ToString());
+        Console.WriteLine($"{Enum.GetName(typeof(LogSeverity), message.Severity)}\t\t{message.ToString()}");
         SetDefaultColor();
         return Task.CompletedTask;
     }
@@ -39,6 +56,6 @@ public class Logger : ILogger
         }
     }
 
-    private void SetDefaultColor() => 
+    private void SetDefaultColor() =>
         Console.ForegroundColor = ConsoleColor.White;
 }
