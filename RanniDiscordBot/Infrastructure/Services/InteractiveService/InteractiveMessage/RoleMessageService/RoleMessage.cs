@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService.InteractiveMessage.
     RoleMessageService;
 
+[Serializable]
 public class RoleMessage : IInteractiveMessage
 {
     public Task Interact(SocketReaction reaction)
