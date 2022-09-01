@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService.InteractiveMessage;
-using RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService.InteractiveMessage.RoleMessageService;
 
 namespace RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService;
 
