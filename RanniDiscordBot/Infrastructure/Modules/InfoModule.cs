@@ -19,6 +19,7 @@ public class InfoModule : ModuleBase<SocketCommandContext>
     [Summary("Command list")]
     public Task PrintCommandAsync()
     {
+        _logger.LogDebug("Cmd");
         var commands = string.Empty;
         if(string.IsNullOrEmpty(commands))
         {
