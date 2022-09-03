@@ -22,18 +22,16 @@ public class RoleModule : ModuleBase<SocketCommandContext>
     public Task SetRoleMessageAsync()
     {
         var message = Context.Message.ReferencedMessage;
-        
-        _logger.LogDebug("test");
 
-        // _ = Task.Run(async () =>
-        // {
-        //     Roles.ServerRoles = Context.Guild.Roles.ToList();
-        //
-        //     await AddReactions(message);
-        //     
-        //     _interactiveMessage.AddInteractMessage(Context.Message.Id, new RoleMessage());
-        // });
-        //
+        _ = Task.Run(async () =>
+        {
+            Roles.ServerRoles = Context.Guild.Roles.ToList();
+        
+            await AddReactions(message);
+            
+            _interactiveMessage.AddInteractMessage(Context.Message.Id, new RoleMessage());
+        });
+        
         return Task.CompletedTask;
     }
 

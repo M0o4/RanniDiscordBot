@@ -3,13 +3,13 @@ using RanniDiscordBot.RanniDiscordBot.Utils;
 
 namespace RanniDiscordBot.RanniDiscordBot.Configuration;
 
-public static class Server
+public class Server : IServer
 {
     private const string ConfigPath = @"config.json";
 
-    private static Config? _config;
+    private Config? _config;
 
-    public static void LoadOrCreateData()
+    public void LoadOrCreateData()
     {
         if (File.Exists(ConfigPath))
             LoadConfig();
@@ -18,19 +18,18 @@ public static class Server
             CreateConfig();
             SaveData();
         }
-        
     }
 
-    private static void LoadConfig()
+    private void LoadConfig()
     {
         using StreamReader reader = new StreamReader(ConfigPath);
         var json = reader.ReadToEnd();
         _config = JsonConvert.DeserializeObject<Config>(json);
     }
 
-    private static void CreateConfig() => 
+    private void CreateConfig() =>
         _config = new Config();
 
-    private static void SaveData() => 
+    private void SaveData() =>
         DataUtils.SaveJson(ConfigPath, _config);
 }

@@ -38,13 +38,11 @@ public class InteractiveService : IDisposable, IInteractiveService
     {
         if (reaction.UserId == _client.CurrentUser.Id) return Task.CompletedTask;
         if (!_interactiveMessages.TryGetValue(message.Id, out var interactiveMessage))
-        {
             return Task.CompletedTask;
-        }
-        _ = Task.Run(async () =>
-        {
-            await interactiveMessage.Interact(reaction);
-        });
+        
+        _ = Task.Run(async ()
+            => await interactiveMessage.Interact(reaction));
+        
         return Task.CompletedTask;
     }
 }
