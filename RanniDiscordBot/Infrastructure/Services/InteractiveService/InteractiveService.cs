@@ -1,26 +1,42 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using RanniDiscordBot.RanniDiscordBot.Configuration;
 using RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService.InteractiveMessage;
+using RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.LoggerService;
 
 namespace RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService;
 
 public class InteractiveService : IDisposable, IInteractiveService
 {
     private readonly DiscordSocketClient _client;
+    private readonly IServer _server;
+    
     private readonly Dictionary<ulong, IInteractiveMessage> _interactiveMessages;
+    private readonly ILogger _logger;
 
-    public InteractiveService(DiscordSocketClient client)
+    public InteractiveService(DiscordSocketClient client, IServer server, ILogger logger)
     {
+        _logger = logger;
+        _server = server;
         _client = client;
         _interactiveMessages = new Dictionary<ulong, IInteractiveMessage>();
 
+        AddLoadedData();
         SubscribeInteractiveServiceEvents();
     }
 
-    public void AddInteractMessage(ulong messageId, IInteractiveMessage interactiveMessage)
+    private void AddLoadedData()
     {
-        _interactiveMessages.Add(messageId, interactiveMessage);
+        var config = _server.Config;
+        
+        if(config.RoleMessageData.RoleMessageId == 0)
+            return;
+        
+        AddInteractMessage(config.RoleMessageData.RoleMessageId, config.RoleMessageData.RoleMessage);
     }
+
+    public void AddInteractMessage(ulong messageId, IInteractiveMessage interactiveMessage) => 
+        _interactiveMessages.Add(messageId, interactiveMessage);
 
     public void Dispose()
     {
@@ -36,12 +52,14 @@ public class InteractiveService : IDisposable, IInteractiveService
 
     private Task HandlePageReactionAsync(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> chanel, SocketReaction reaction)
     {
+        _logger.LogDebug("Reaction added");
+        
         if (reaction.UserId == _client.CurrentUser.Id) return Task.CompletedTask;
         if (!_interactiveMessages.TryGetValue(message.Id, out var interactiveMessage))
             return Task.CompletedTask;
         
         _ = Task.Run(async ()
-            => await interactiveMessage.Interact(reaction));
+            => await interactiveMessage.Interact(message, chanel, reaction));
         
         return Task.CompletedTask;
     }

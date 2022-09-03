@@ -2,7 +2,6 @@
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using RanniDiscordBot.RanniDiscordBot.Configuration;
-using RanniDiscordBot.RanniDiscordBot.Infrastructure.DI;
 using RanniDiscordBot.RanniDiscordBot.Infrastructure.Services;
 using RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.LoggerService;
 
@@ -17,10 +16,8 @@ public class Ranni
     private readonly ILogger _logger;
     private readonly IServer _server;
 
-    public Ranni()
+    public Ranni(IServiceProvider services)
     {
-        IServiceProvider services = new Provider().ConfigureServices();
-
         _server = services.GetRequiredService<IServer>();
         _client = services.GetRequiredService<DiscordSocketClient>();
         _logger = services.GetRequiredService<ILogger>();

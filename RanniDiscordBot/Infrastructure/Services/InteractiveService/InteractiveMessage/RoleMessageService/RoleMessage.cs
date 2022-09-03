@@ -7,61 +7,71 @@ namespace RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveSer
 [Serializable]
 public class RoleMessage : IInteractiveMessage
 {
-    public Task Interact(SocketReaction reaction)
+
+    public Task Interact(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> chanel,
+        SocketReaction reaction)
     {
-        ReadReactionAndSetRole(reaction);
+        ReadReactionAndSetRole(chanel, reaction);
         return Task.CompletedTask;
     }
 
-    private void ReadReactionAndSetRole(SocketReaction reaction)
+    private void ReadReactionAndSetRole(Cacheable<IMessageChannel, ulong> chanel, SocketReaction reaction)
     {
         switch (reaction.Emote)
         {
             case var _ when Equals(reaction.Emote, RoleMessageEmote.One):
             {
-                if (TryGetRole("1 курс", out var role))
-                    SetRole(reaction.User.Value, role);
+                if (TryGetRole("1 курс", chanel, out var role))
+                    if (role != null)
+                        SetRole(reaction.User.Value, role);
                 break;
             }
             case var _ when Equals(reaction.Emote, RoleMessageEmote.Two):
             {
-                if (TryGetRole("2 курс", out var role))
-                    SetRole(reaction.User.Value, role);
+                if (TryGetRole("2 курс", chanel, out var role))
+                    if (role != null)
+                        SetRole(reaction.User.Value, role);
                 break;
             }
             case var _ when Equals(reaction.Emote, RoleMessageEmote.Three):
             {
-                if (TryGetRole("3 курс", out var role))
-                    SetRole(reaction.User.Value, role);
+                if (TryGetRole("3 курс", chanel, out var role))
+                    if (role != null)
+                        SetRole(reaction.User.Value, role);
                 break;
             }
             case var _ when Equals(reaction.Emote, RoleMessageEmote.Four):
             {
-                if (TryGetRole("4 курс", out var role))
-                    SetRole(reaction.User.Value, role);
+                if (TryGetRole("4 курс", chanel, out var role))
+                    if (role != null)
+                        SetRole(reaction.User.Value, role);
                 break;
             }
             case var _ when Equals(reaction.Emote, RoleMessageEmote.Five):
             {
-                if (TryGetRole("5 курс", out var role))
-                    SetRole(reaction.User.Value, role);
+                if (TryGetRole("5 курс", chanel, out var role))
+                    if (role != null)
+                        SetRole(reaction.User.Value, role);
                 break;
             }
         }
     }
 
-    private bool TryGetRole(string roleName, out SocketRole role)
+    //TODO: fix bad code
+    private bool TryGetRole(string roleName, Cacheable<IMessageChannel, ulong> chanel, out SocketRole? role)
     {
-        role = Roles.ServerRoles.FirstOrDefault(r => r.Name == roleName);
+        role = (chanel.Value as SocketGuildChannel)?.Guild.Roles.FirstOrDefault(r => r.Name == roleName);
 
-        if (role != null)
-            return true;
-        else
-            return false;
+        return true;
+
+        // if (role != null)
+        //     return true;
+        // else
+        //     return false;
     }
 
-    private void SetRole(IUser user, SocketRole role)
+    private void SetRole(IUser user, IRole role)
     {
-        (user as IGuildUser)?.AddRoleAsync(role);
+        (user as SocketGuildUser)?.AddRoleAsync(role);
     }
 }

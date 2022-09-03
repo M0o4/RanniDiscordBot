@@ -19,7 +19,7 @@ public class PageMessage : IInteractiveMessage
         _message = message;
     }
 
-    public Task Interact(SocketReaction reaction) => 
+    public Task Interact(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> chanel, SocketReaction reaction) => 
         _message.ModifyAsync(msg => msg.Content = ChangePage(reaction));
 
     public string ChangePage(SocketReaction reaction)
