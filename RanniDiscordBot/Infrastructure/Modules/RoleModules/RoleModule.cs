@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.Interactions;
 using RanniDiscordBot.RanniDiscordBot.Configuration;
 using RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService;
 using RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService.InteractiveMessage.RoleMessageService;

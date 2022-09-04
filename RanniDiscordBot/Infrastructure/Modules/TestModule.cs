@@ -15,4 +15,24 @@ public class TestModule : ModuleBase<SocketCommandContext>
             Context.Guild.Roles.FirstOrDefault(r => r.Name == "1 курс"))!;
         await ReplyAsync("test");
     }
+
+    [RequireOwner]
+    [Command("Roles")]
+    [Summary("Print all roles")]
+    public Task PrintRolesAsync()
+    {
+        var roles = string.Empty;
+
+        _ = Task.Run(async () =>
+        {
+            foreach (var role in Context.Guild.Roles)
+            {
+                roles += $"\"{role.Name}\",";
+            }
+
+            await ReplyAsync(roles);
+        });
+
+        return Task.CompletedTask;
+    }
 }
