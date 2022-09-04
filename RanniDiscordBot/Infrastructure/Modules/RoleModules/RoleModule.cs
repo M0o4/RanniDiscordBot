@@ -54,8 +54,11 @@ public class RoleModule : ModuleBase<SocketCommandContext>
 
     private void SaveRoleMessage(ulong messageId, RoleMessage roleMessage)
     {
-        _server.Config.RoleMessageData.RoleMessageId = messageId;
-        _server.Config.RoleMessageData.RoleMessage = roleMessage;
+        if (_server.Config != null)
+        {
+            _server.Config.RoleMessageData.RoleMessageId = messageId;
+            _server.Config.RoleMessageData.RoleMessage = roleMessage;
+        }
 
         _server.SaveData();
     }

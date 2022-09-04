@@ -29,10 +29,11 @@ public class InteractiveService : IDisposable, IInteractiveService
     {
         var config = _server.Config;
         
-        if(config.RoleMessageData.RoleMessageId == 0)
+        if(config != null && config.RoleMessageData.RoleMessageId == 0)
             return;
-        
-        AddInteractMessage(config.RoleMessageData.RoleMessageId, config.RoleMessageData.RoleMessage);
+
+        if (config != null)
+            AddInteractMessage(config.RoleMessageData.RoleMessageId, config.RoleMessageData.RoleMessage);
     }
 
     public void AddInteractMessage(ulong messageId, IInteractiveMessage interactiveMessage) => 
