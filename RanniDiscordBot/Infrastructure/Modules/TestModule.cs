@@ -5,6 +5,7 @@ namespace RanniDiscordBot.RanniDiscordBot.Infrastructure.Modules;
 
 public class TestModule : ModuleBase<SocketCommandContext>
 {
+    [Discord.Commands.RequireOwner]
     [Command("test")]
     [Summary("test module")]
     public async Task SayAsync()

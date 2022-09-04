@@ -5,7 +5,7 @@ namespace RanniDiscordBot.RanniDiscordBot.Configuration;
 
 public class Server : IServer
 {
-    public Config Config => _config;
+    public Config? Config => _config;
     
     private const string ConfigPath = @"config.json";
 

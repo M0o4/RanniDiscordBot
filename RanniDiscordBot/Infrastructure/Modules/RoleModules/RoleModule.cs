@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.Interactions;
 using RanniDiscordBot.RanniDiscordBot.Configuration;
 using RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService;
 using RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService.InteractiveMessage.RoleMessageService;
@@ -20,8 +21,9 @@ public class RoleModule : ModuleBase<SocketCommandContext>
         _interactiveMessage = interactiveMessage;
     }
 
+    [Discord.Commands.RequireOwner]
     [Command("role")]
-    [Summary("set role message.")]
+    [Discord.Commands.Summary("set role message.")]
     public Task SetRoleMessageAsync()
     {
         var message = Context.Message.ReferencedMessage;

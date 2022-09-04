@@ -3,6 +3,6 @@
 public interface IServer
 {
     void LoadOrCreateData();
-    Config Config { get; }
+    Config? Config { get; }
     void SaveData();
 }
