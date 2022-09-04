@@ -40,17 +40,18 @@ public class InteractiveService : IDisposable, IInteractiveService
 
     public void Dispose()
     {
-        _client.ReactionAdded -= HandlePageReactionAsync;
-        _client.ReactionRemoved -= HandlePageReactionAsync;
+        _client.ReactionAdded -= HandleOnReactionAddedAsync;
+        _client.ReactionRemoved -= HandleOnReactionRemovedAsync;
     }
 
     private void SubscribeInteractiveServiceEvents()
     {
-        _client.ReactionAdded += HandlePageReactionAsync;
-        _client.ReactionRemoved += HandlePageReactionAsync;
+        _client.ReactionAdded += HandleOnReactionAddedAsync;
+        _client.ReactionRemoved += HandleOnReactionRemovedAsync;
     }
 
-    private Task HandlePageReactionAsync(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> chanel, SocketReaction reaction)
+    //TODO: Refactoring
+    private Task HandleOnReactionAddedAsync(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> chanel, SocketReaction reaction)
     {
         _logger.LogDebug("Reaction added");
         
@@ -59,7 +60,21 @@ public class InteractiveService : IDisposable, IInteractiveService
             return Task.CompletedTask;
         
         _ = Task.Run(async ()
-            => await interactiveMessage.Interact(message, chanel, reaction));
+            => await interactiveMessage.OnReactionAddedAsync(message, chanel, reaction));
+        
+        return Task.CompletedTask;
+    }
+    
+    private Task HandleOnReactionRemovedAsync(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> chanel, SocketReaction reaction)
+    {
+        _logger.LogDebug("Reaction removed");
+        
+        if (reaction.UserId == _client.CurrentUser.Id) return Task.CompletedTask;
+        if (!_interactiveMessages.TryGetValue(message.Id, out var interactiveMessage))
+            return Task.CompletedTask;
+        
+        _ = Task.Run(async ()
+            => await interactiveMessage.OnReactionRemovedAsync(message, chanel, reaction));
         
         return Task.CompletedTask;
     }

@@ -5,5 +5,6 @@ namespace RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveSer
 
 public interface IInteractiveMessage
 {
-    public Task Interact(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> chanel, SocketReaction reaction);
+    public Task OnReactionAddedAsync(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> chanel, SocketReaction reaction);
+    public Task OnReactionRemovedAsync(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> chanel, SocketReaction reaction);
 }

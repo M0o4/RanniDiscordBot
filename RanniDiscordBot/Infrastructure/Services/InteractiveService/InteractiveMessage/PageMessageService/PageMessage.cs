@@ -19,10 +19,13 @@ public class PageMessage : IInteractiveMessage
         _message = message;
     }
 
-    public Task Interact(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> chanel, SocketReaction reaction) => 
+    public Task OnReactionAddedAsync(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> chanel, SocketReaction reaction) => 
         _message.ModifyAsync(msg => msg.Content = ChangePage(reaction));
 
-    public string ChangePage(SocketReaction reaction)
+    public Task OnReactionRemovedAsync(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> chanel, SocketReaction reaction) => 
+        OnReactionAddedAsync(message, chanel, reaction);
+
+    private string ChangePage(IReaction reaction)
     {
         switch (reaction.Emote)
         {

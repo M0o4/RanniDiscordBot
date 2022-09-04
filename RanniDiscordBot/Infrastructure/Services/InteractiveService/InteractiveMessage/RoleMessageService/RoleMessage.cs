@@ -1,5 +1,7 @@
 ﻿using Discord;
 using Discord.WebSocket;
+using RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService.InteractiveMessage.RoleMessageService.
+    Utils;
 
 namespace RanniDiscordBot.RanniDiscordBot.Infrastructure.Services.InteractiveService.InteractiveMessage.
     RoleMessageService;
@@ -13,60 +15,59 @@ public class RoleMessage : IInteractiveMessage
     private const string FourthYear = "4 курс";
     private const string FifthYear = "5 курс";
 
-    public Task Interact(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> chanel,
+    private AddRoleUtil _addRoleUtil;
+    private RemoveRoleUtil _removeRoleUtil;
+
+    public RoleMessage()
+    {
+        _addRoleUtil = new AddRoleUtil();
+        _removeRoleUtil = new RemoveRoleUtil();
+    }
+
+    public Task OnReactionAddedAsync(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> chanel,
         SocketReaction reaction)
     {
-        ReadReactionAndSetRole(chanel, reaction);
+        ReadReactionAndHandleRole(chanel, reaction, _addRoleUtil);
         return Task.CompletedTask;
     }
 
-    private void ReadReactionAndSetRole(Cacheable<IMessageChannel, ulong> chanel, SocketReaction reaction)
+    public Task OnReactionRemovedAsync(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> chanel,
+        SocketReaction reaction)
+    {
+        ReadReactionAndHandleRole(chanel, reaction, _removeRoleUtil);
+        return Task.CompletedTask;
+    }
+
+    private void ReadReactionAndHandleRole(Cacheable<IMessageChannel, ulong> chanel, SocketReaction reaction,
+        RoleUtil roleUtil)
     {
         switch (reaction.Emote)
         {
             case var _ when Equals(reaction.Emote, RoleMessageEmote.One):
             {
-                var role = GetRole(FirstYear, chanel);
-                if (role != null)
-                    SetRole(reaction.User.Value, role);
+                roleUtil.HandleRole(FirstYear, chanel, reaction);
                 break;
             }
             case var _ when Equals(reaction.Emote, RoleMessageEmote.Two):
             {
-                var role = GetRole(SecondYear, chanel);
-                if (role != null)
-                    SetRole(reaction.User.Value, role);
+                roleUtil.HandleRole(SecondYear, chanel, reaction);
                 break;
             }
             case var _ when Equals(reaction.Emote, RoleMessageEmote.Three):
             {
-                var role = GetRole(ThirdYear, chanel);
-                if (role != null)
-                    SetRole(reaction.User.Value, role);
+                roleUtil.HandleRole(ThirdYear, chanel, reaction);
                 break;
             }
             case var _ when Equals(reaction.Emote, RoleMessageEmote.Four):
             {
-                var role = GetRole(FourthYear, chanel);
-                if (role != null)
-                    SetRole(reaction.User.Value, role);
+                roleUtil.HandleRole(FourthYear, chanel, reaction);
                 break;
             }
             case var _ when Equals(reaction.Emote, RoleMessageEmote.Five):
             {
-                var role = GetRole(FifthYear, chanel);
-                if (role != null)
-                    SetRole(reaction.User.Value, role);
+                roleUtil.HandleRole(FifthYear, chanel, reaction);
                 break;
             }
         }
-    }
-
-    private SocketRole? GetRole(string roleName, Cacheable<IMessageChannel, ulong> chanel) =>
-        (chanel.Value as SocketGuildChannel)?.Guild.Roles.FirstOrDefault(r => r.Name == roleName);
-
-    private void SetRole(IUser user, IRole role)
-    {
-        (user as SocketGuildUser)?.AddRoleAsync(role);
     }
 }
