@@ -4,3 +4,6 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 *.user
+
+# Visual Studio cache directory
+.vs/
