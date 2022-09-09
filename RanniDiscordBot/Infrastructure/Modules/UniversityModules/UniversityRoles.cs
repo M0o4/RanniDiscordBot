@@ -2,23 +2,17 @@
 
 public static class UniversityRoles
 {
-    public static List<string> ExceptionsRoles = new List<string>()
+    public static List<string> ExcludeRoles = new List<string>()
     {
-        "ИФИО", 
-        "ФГГНГД", 
-        "СФ", 
-        "ХИМ", 
-        "НПК", 
-        "АС", 
-        "Колледж", 
-        "ТФ",  
-        "ИМО", 
-        "ФИТУ",
-        "ЭНФ", 
-        "ДОБ",
-        "ФИОП",
-        "МЕХ", 
-        "Отчислен",
-        "МФ",
+        "Ranni",
+        "2 курс",
+        "@everyone",
+        "4 курс",
+        "1 курс",
+        "Shinobu",
+        "5 курс",
+        "Админ",
+        "3 курс",
+        "👾 Bot",
     };
 }
