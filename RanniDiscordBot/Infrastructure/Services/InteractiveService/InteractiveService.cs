@@ -51,7 +51,6 @@ public class InteractiveService : IDisposable, IInteractiveService
         _client.ReactionRemoved += HandleOnReactionRemovedAsync;
     }
 
-    //TODO: Refactoring
     private Task HandleOnReactionAddedAsync(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> chanel, SocketReaction reaction)
     {
         _logger.LogDebug("Reaction added");
