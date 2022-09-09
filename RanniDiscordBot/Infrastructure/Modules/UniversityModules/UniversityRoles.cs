@@ -2,7 +2,7 @@
 
 public static class UniversityRoles
 {
-    public static List<string> Roles = new List<string>()
+    public static List<string> ExceptionsRoles = new List<string>()
     {
         "ИФИО", 
         "ФГГНГД", 
